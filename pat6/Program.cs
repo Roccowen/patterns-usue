@@ -203,33 +203,81 @@ namespace pat6
                 };
             }
         }
-        public abstract class AbstractEmployee
+        public interface IClonable
+        {
+            public Employee Clone();
+        }
+        public class Employee : IClonable
         {
             public string Name { get; set; }
             public string Surname { get; set; }
             public string Middlename { get; set; }
             public string BDate { get; set; }
             public int Sallary { get; set; }
+            public Employee()
+            {
+
+            }
+            public Employee(Employee employee)
+            {
+                Name = employee.Name;
+                Surname = employee.Surname;
+                Middlename = employee.Middlename;
+                BDate = employee.BDate;
+                Sallary = employee.Sallary;
+            }
+            public Employee Clone()
+            {
+                return new Employee(this);
+            }
             public override string ToString()
             {
                 return $"{this.GetType().Name} {Surname} {Name} {Middlename} {BDate} ${Sallary}";
             }
         }
-        public abstract class AbstractIntern : AbstractEmployee
+        public class AbstractIntern : Employee
         {
+            public AbstractIntern()
+            {
 
+            }
+            public AbstractIntern(AbstractIntern a) : base(a)
+            {
+
+            }
         }
-        public abstract class AbstractClerk : AbstractEmployee
+        public class AbstractClerk : Employee
         {
+            public AbstractClerk()
+            {
 
+            }
+            public AbstractClerk(AbstractClerk a) : base(a)
+            {
+
+            }
         }
-        public abstract class AbstractDeputyHead : AbstractEmployee
+        public class AbstractDeputyHead : Employee
         {
+            public AbstractDeputyHead()
+            {
 
+            }
+            public AbstractDeputyHead(AbstractDeputyHead a) : base(a)
+            {
+
+            }
         }
-        public abstract class AbstractHead : AbstractEmployee
+        public class AbstractHead : Employee
         {
+            public AbstractHead()
+            {
 
+            }
+            public AbstractHead(AbstractHead a) : base(a)
+            {
+
+            }
         }
         interface AbstractDepartment
         {
@@ -253,67 +301,243 @@ namespace pat6
         }
         class HRIntern : AbstractIntern, HRDepartment
         {
+            public HRIntern()
+            {
 
+            }
+            public HRIntern(HRIntern a) : base(a)
+            {
+
+            }
+            public new HRIntern Clone()
+            {
+                return new HRIntern(this);
+            }
         }
         class HRClerk : AbstractClerk, HRDepartment
         {
+            public HRClerk()
+            {
 
+            }
+            public HRClerk(HRClerk a) : base(a)
+            {
+
+            }
+            public new HRClerk Clone()
+            {
+                return new HRClerk(this);
+            }
         }
         class HRDeputyHead : AbstractDeputyHead, HRDepartment
         {
+            public HRDeputyHead()
+            {
 
+            }
+            public HRDeputyHead(HRDeputyHead a) : base(a)
+            {
+
+            }
+            public new HRDeputyHead Clone()
+            {
+                return new HRDeputyHead(this);
+            }
         }
         class HRHead : AbstractHead, HRDepartment
         {
+            public HRHead()
+            {
 
+            }
+            public HRHead(HRHead a) : base(a)
+            {
+
+            }
+            public new HRHead Clone()
+            {
+                return new HRHead(this);
+            }
         }
         class FinanceIntern : AbstractIntern, FinanceDepartment
         {
+            public FinanceIntern()
+            {
 
+            }
+            public FinanceIntern(FinanceIntern a) : base(a)
+            {
+
+            }
+            public new FinanceIntern Clone()
+            {
+                return new FinanceIntern(this);
+            }
         }
         class FinanceClerk : AbstractClerk, FinanceDepartment
         {
+            public FinanceClerk()
+            {
 
+            }
+            public FinanceClerk(FinanceClerk a) : base(a)
+            {
+
+            }
+            public new FinanceClerk Clone()
+            {
+                return new FinanceClerk(this);
+            }
         }
         class FinanceDeputyHead : AbstractDeputyHead, FinanceDepartment
         {
+            public FinanceDeputyHead()
+            {
 
+            }
+            public FinanceDeputyHead(FinanceDeputyHead a) : base(a)
+            {
+
+            }
+            public new FinanceDeputyHead Clone()
+            {
+                return new FinanceDeputyHead(this);
+            }
         }
         class FinanceHead : AbstractHead, FinanceDepartment
         {
+            public FinanceHead()
+            {
 
+            }
+            public FinanceHead(FinanceHead a) : base(a)
+            {
+
+            }
+            public new FinanceHead Clone()
+            {
+                return new FinanceHead(this);
+            }
         }
         class LearnIntern : AbstractIntern, LearnDepartment
         {
+            public LearnIntern()
+            {
 
+            }
+            public LearnIntern(LearnIntern a) : base(a)
+            {
+
+            }
+            public new LearnIntern Clone()
+            {
+                return new LearnIntern(this);
+            }
         }
         class LearnClerk : AbstractClerk, LearnDepartment
         {
+            public LearnClerk()
+            {
 
+            }
+            public LearnClerk(LearnClerk a) : base(a)
+            {
+
+            }
+            public new LearnClerk Clone()
+            {
+                return new LearnClerk(this);
+            }
         }
         class LearnDeputyHead : AbstractDeputyHead, LearnDepartment
         {
+            public LearnDeputyHead()
+            {
 
+            }
+            public LearnDeputyHead(LearnDeputyHead a) : base(a)
+            {
+
+            }
+            public new LearnDeputyHead Clone()
+            {
+                return new LearnDeputyHead(this);
+            }
         }
         class LearnHead : AbstractHead, LearnDepartment
         {
+            public LearnHead()
+            {
 
+            }
+            public LearnHead(LearnHead a) : base(a)
+            {
+
+            }
+            public new LearnHead Clone()
+            {
+                return new LearnHead(this);
+            }
         }
         class InternationalIntern : AbstractIntern, InternationalDepartment
         {
+            public InternationalIntern()
+            {
 
+            }
+            public InternationalIntern(InternationalIntern a) : base(a)
+            {
+
+            }
+            public new InternationalIntern Clone()
+            {
+                return new InternationalIntern(this);
+            }
         }
         class InternationalClerk : AbstractClerk, InternationalDepartment
         {
+            public InternationalClerk()
+            {
 
+            }
+            public InternationalClerk(InternationalClerk a) : base(a)
+            {
+
+            }
+            public new InternationalClerk Clone()
+            {
+                return new InternationalClerk(this);
+            }
         }
         class InternationalDeputyHead : AbstractDeputyHead, InternationalDepartment
         {
+            public InternationalDeputyHead()
+            {
 
+            }
+            public InternationalDeputyHead(InternationalDeputyHead a) : base(a)
+            {
+
+            }
+            public new InternationalDeputyHead Clone()
+            {
+                return new InternationalDeputyHead(this);
+            }
         }
         class InternationalHead : AbstractHead, InternationalDepartment
         {
+            public InternationalHead()
+            {
 
+            }
+            public InternationalHead(InternationalHead a) : base(a)
+            {
+
+            }
+            public new InternationalHead Clone()
+            {
+                return new InternationalHead(this);
+            }
         }
 
         static void Main(string[] args)
@@ -360,7 +584,7 @@ namespace pat6
                 return learnBuilder;
             }
         }
-        public static List<AbstractEmployee> Employees = new List<AbstractEmployee>();
+        public static Dictionary<string, Employee> Employees = new Dictionary<string, Employee>();
         public static void ConsoleReader()
         {
             string input = "";
@@ -373,7 +597,7 @@ namespace pat6
             }
             void HandleCommand(string command)
             {
-                AbstractEmployee CreateEmployee(AbstractEmployeeBuilder builder, string job, string surname, string name, string middlename, string bdate, int summary)
+                Employee CreateEmployee(AbstractEmployeeBuilder builder, string job, string surname, string name, string middlename, string bdate, int summary)
                 {
                     switch (job)
                     {
@@ -389,34 +613,56 @@ namespace pat6
                             throw new ArgumentException("Нет подходящей должности");
                     }
                 }
-                var args = command.Split(' ');
                 try
                 {
-                    switch (args[0].ToLower())
+                    switch (command)
                     {
                         case "crt":
                             {
-                                switch (args[1].ToLower())
+                                Console.WriteLine("Введите название отдела");
+                                Console.WriteLine("learn, international, hr, finance");
+                                var depart = Console.ReadLine();
+                                Console.WriteLine("Введите название должности");
+                                Console.WriteLine("intern, clerk, deputyhead, head");
+                                var rang = Console.ReadLine();
+                                Console.WriteLine("Введите фамилию нового сотрудника");
+                                var surname = Console.ReadLine();
+                                Console.WriteLine("Введите имя нового сотрудника");
+                                var name = Console.ReadLine();
+                                Console.WriteLine("Введите отчество нового сотрудника");
+                                var middleName = Console.ReadLine();
+                                Console.WriteLine("Введите дату рождения нового сотрудника");
+                                var bdate = Console.ReadLine();
+                                Console.WriteLine("Введите зарплату нового сотрудника");
+                                var payment = Console.ReadLine();
+
+                                
+                                Gender gender = Gender.Male;
+                                bool isValidGender = false;
+
+                                while (!isValidGender)
+                                    try
+                                    {
+                                        gender = (Gender)Enum.Parse(typeof(Gender), Console.ReadLine());
+                                        isValidGender = true;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        Console.WriteLine(e.Message);
+                                        Console.ForegroundColor = ConsoleColor.White;
+                                    }
+
+                                var hobbies = new List<string>();
+                                Console.WriteLine("Введите хобби ребенка (exit - чтобы закончить ввод):");
+                                var input = Console.ReadLine();
+                                while (input != "exit")
                                 {
-                                    case "hr":
-                                        Employees.Add(
-                                            CreateEmployee(HRBuilder, args[2].ToLower(), args[3], args[4], args[5], args[6], Convert.ToInt32(args[7])));
-                                        break;
-                                    case "learn":
-                                        Employees.Add(
-                                            CreateEmployee(LearnBuilder, args[2].ToLower(), args[3], args[4], args[5], args[6], Convert.ToInt32(args[7])));
-                                        break;
-                                    case "international":
-                                        Employees.Add(
-                                            CreateEmployee(InternationalBuilder, args[2].ToLower(), args[3], args[4], args[5], args[6], Convert.ToInt32(args[7])));
-                                        break;
-                                    case "finance":
-                                        Employees.Add(
-                                            CreateEmployee(FinanceBuilder, args[2].ToLower(), args[3], args[4], args[5], args[6], Convert.ToInt32(args[7])));
-                                        break;
-                                    default:
-                                        throw new ArgumentException("Нет подходящего отдела");
+                                    hobbies.Add(input);
+                                    input = Console.ReadLine();
                                 }
+
+                                ConcreteStudentBuilder.AddChild(sname, name, mname, bdate, gender, hobbies);
                                 break;
                             }
                         case "sh":
@@ -471,14 +717,23 @@ namespace pat6
                                     }
                                 break;
                             }
+                        case "ch":
+                            {
+                                break;
+                            }
+                        case "cln":
+                            {
+                                break;
+                            }
                         default:
                             {
                                 Console.WriteLine(
                                   $"Названия отделов: learn, international, hr, finance\n\r" +
                                   $"Названия должностей: intern, clerk, deputyhead, head\n\r\n\r" +
+                                  $"Скопировать сотрудникка\n\r" +
                                   $"Вывод всех текущих сотрудников определенного отдела   sh \"Название отдела\"\n\r" +
                                   $"Вывод всех текущих сотрудников определенной должности sh \"Название должности\"\n\r" +
-                                  $"Создать сотрудника                                    crt \"Название отдела\" \"Название должности\" <Фамилия> <Имя> <Отчество> <Дата рождения> <Зарплата >\n\r" +
+                                  $"Создать сотрудника                                    crt \"Название отдела\" \"Название должности\" <Фамилия> <Имя> <Отчество> <Дата рождения> <Зарплата>\n\r" +
                                   $"Вывод всех текущих сотрудников                        sh\n\r" +
                                   $"Выход                                                 exit\n\r");
                             }
