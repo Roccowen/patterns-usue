@@ -207,7 +207,7 @@ namespace pat6
         {
             public Employee Clone();
         }
-        public class Employee : IClonable
+        public abstract class Employee : IClonable
         {
             public string Name { get; set; }
             public string Surname { get; set; }
@@ -226,16 +226,13 @@ namespace pat6
                 BDate = employee.BDate;
                 Sallary = employee.Sallary;
             }
-            public Employee Clone()
-            {
-                return new Employee(this);
-            }
+            public abstract Employee Clone();
             public override string ToString()
             {
                 return $"{this.GetType().Name} {Surname} {Name} {Middlename} {BDate} ${Sallary}";
             }
         }
-        public class AbstractIntern : Employee
+        public abstract class AbstractIntern : Employee
         {
             public AbstractIntern()
             {
@@ -246,7 +243,7 @@ namespace pat6
 
             }
         }
-        public class AbstractClerk : Employee
+        public abstract class AbstractClerk : Employee
         {
             public AbstractClerk()
             {
@@ -257,7 +254,7 @@ namespace pat6
 
             }
         }
-        public class AbstractDeputyHead : Employee
+        public abstract class AbstractDeputyHead : Employee
         {
             public AbstractDeputyHead()
             {
@@ -268,7 +265,7 @@ namespace pat6
 
             }
         }
-        public class AbstractHead : Employee
+        public abstract class AbstractHead : Employee
         {
             public AbstractHead()
             {
@@ -309,7 +306,7 @@ namespace pat6
             {
 
             }
-            public new HRIntern Clone()
+            public override HRIntern Clone()
             {
                 return new HRIntern(this);
             }
@@ -324,7 +321,7 @@ namespace pat6
             {
 
             }
-            public new HRClerk Clone()
+            public override HRClerk Clone()
             {
                 return new HRClerk(this);
             }
@@ -339,7 +336,7 @@ namespace pat6
             {
 
             }
-            public new HRDeputyHead Clone()
+            public override HRDeputyHead Clone()
             {
                 return new HRDeputyHead(this);
             }
@@ -354,7 +351,7 @@ namespace pat6
             {
 
             }
-            public new HRHead Clone()
+            public override HRHead Clone()
             {
                 return new HRHead(this);
             }
@@ -369,7 +366,7 @@ namespace pat6
             {
 
             }
-            public new FinanceIntern Clone()
+            public override FinanceIntern Clone()
             {
                 return new FinanceIntern(this);
             }
@@ -384,7 +381,7 @@ namespace pat6
             {
 
             }
-            public new FinanceClerk Clone()
+            public override FinanceClerk Clone()
             {
                 return new FinanceClerk(this);
             }
@@ -399,7 +396,7 @@ namespace pat6
             {
 
             }
-            public new FinanceDeputyHead Clone()
+            public override FinanceDeputyHead Clone()
             {
                 return new FinanceDeputyHead(this);
             }
@@ -414,7 +411,7 @@ namespace pat6
             {
 
             }
-            public new FinanceHead Clone()
+            public override FinanceHead Clone()
             {
                 return new FinanceHead(this);
             }
@@ -429,7 +426,7 @@ namespace pat6
             {
 
             }
-            public new LearnIntern Clone()
+            public override LearnIntern Clone()
             {
                 return new LearnIntern(this);
             }
@@ -444,7 +441,7 @@ namespace pat6
             {
 
             }
-            public new LearnClerk Clone()
+            public override LearnClerk Clone()
             {
                 return new LearnClerk(this);
             }
@@ -459,7 +456,7 @@ namespace pat6
             {
 
             }
-            public new LearnDeputyHead Clone()
+            public override LearnDeputyHead Clone()
             {
                 return new LearnDeputyHead(this);
             }
@@ -474,7 +471,7 @@ namespace pat6
             {
 
             }
-            public new LearnHead Clone()
+            public override LearnHead Clone()
             {
                 return new LearnHead(this);
             }
@@ -489,7 +486,7 @@ namespace pat6
             {
 
             }
-            public new InternationalIntern Clone()
+            public override InternationalIntern Clone()
             {
                 return new InternationalIntern(this);
             }
@@ -504,7 +501,7 @@ namespace pat6
             {
 
             }
-            public new InternationalClerk Clone()
+            public override InternationalClerk Clone()
             {
                 return new InternationalClerk(this);
             }
@@ -519,7 +516,7 @@ namespace pat6
             {
 
             }
-            public new InternationalDeputyHead Clone()
+            public override InternationalDeputyHead Clone()
             {
                 return new InternationalDeputyHead(this);
             }
@@ -534,7 +531,7 @@ namespace pat6
             {
 
             }
-            public new InternationalHead Clone()
+            public override InternationalHead Clone()
             {
                 return new InternationalHead(this);
             }
@@ -602,13 +599,13 @@ namespace pat6
                     switch (job)
                     {
                         case "intern":
-                            return builder.CreateIntern(surname, name, middlename, bdate, summary);
+                            return builder.CreateIntern(name, surname, middlename, bdate, summary);
                         case "clerk":
-                            return builder.CreateClerk(surname, name, middlename, bdate, summary);
+                            return builder.CreateClerk(name, surname, middlename, bdate, summary);
                         case "deputyhead":
-                            return builder.CreateDeputyHead(surname, name, middlename, bdate, summary);
+                            return builder.CreateDeputyHead(name, surname, middlename, bdate, summary);
                         case "head":
-                            return builder.CreateHead(surname, name, middlename, bdate, summary);
+                            return builder.CreateHead(name, surname, middlename, bdate, summary);
                         default:
                             throw new ArgumentException("Нет подходящей должности");
                     }
@@ -617,14 +614,87 @@ namespace pat6
                 {
                     switch (command)
                     {
+                        case "copy":
+                            {
+                                Employees.Keys.ToList().ForEach(e => Console.WriteLine($"{e} - {Employees[e]}"));
+                                Console.WriteLine("Введите уникальный идентификатор сотрудника которого скопировать:");
+                                var key = Console.ReadLine();
+                                Console.WriteLine("Введите уникальный идентификатор новго сотрудника:");
+                                var keyNew = Console.ReadLine();
+                                Employees.Add(keyNew, Employees[key].Clone());
+                                break;
+                            }
+                        case "chng":
+                            {
+                                Employees.Keys.ToList().ForEach(e => Console.WriteLine($"{e} - {Employees[e]}"));
+                                Console.WriteLine("Введите уникальный идентификатор сотрудника которого изменить:");
+                                string key = Console.ReadLine();                             
+                                string cmd = !Employees.ContainsKey(key) ? throw new ArgumentException("Сотрудника с таким ключом не существует!") : "";
+                                while (cmd != "exit")
+                                {
+                                    switch (cmd)
+                                    {
+                                        case "name":
+                                            {
+                                                Console.WriteLine("Введите имя сотрудника:");
+                                                Employees[key].Name = Console.ReadLine();
+                                                Console.WriteLine(Employees[key]);
+                                                break;
+                                            }
+                                        case "sname":
+                                            {
+                                                Console.WriteLine("Введите фамилию сотрудника:");
+                                                Employees[key].Surname = Console.ReadLine();
+                                                Console.WriteLine(Employees[key]);
+                                                break;
+                                            }
+                                        case "mname":
+                                            {
+                                                Console.WriteLine("Введите отчество сотрудника:");
+                                                Employees[key].Middlename = Console.ReadLine();
+                                                Console.WriteLine(Employees[key]);
+                                                break;
+                                            }
+                                        case "pay":
+                                            {
+                                                Console.WriteLine("Введите зарплату сотрудника:");
+                                                Employees[key].Sallary = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine(Employees[key]);
+                                                break;
+                                            }
+                                        case "bdate":
+                                            {
+                                                Console.WriteLine("Введите дату рождения сотрудника:");
+                                                Employees[key].BDate = Console.ReadLine();
+                                                Console.WriteLine(Employees[key]);
+                                                break;
+                                            }
+                                        default:
+                                            Console.WriteLine(
+                                              $"Изменить имя            name\n\r" +
+                                              $"Изменить фамилию        sname\n\r" +
+                                              $"Изменить фамилию        mname\n\r" +
+                                              $"Изменить зп             pay\n\r" +
+                                              $"Изменить дату рождения  bdate\n\r\n\r" +
+                                              $"Выход                   exit\n\r");
+                                            break;
+                                    }
+                                    cmd = Console.ReadLine();
+                                }
+                                break;
+                            }
                         case "crt":
                             {
                                 Console.WriteLine("Введите название отдела");
                                 Console.WriteLine("learn, international, hr, finance");
                                 var depart = Console.ReadLine();
+                                while (depart != "learn" && depart != "international" && depart != "hr" && depart != "finance")
+                                    depart = Console.ReadLine();
                                 Console.WriteLine("Введите название должности");
                                 Console.WriteLine("intern, clerk, deputyhead, head");
                                 var rang = Console.ReadLine();
+                                while (rang != "intern" && rang != "clerk" && rang != "deputyhead" && rang != "head")
+                                    rang = Console.ReadLine();
                                 Console.WriteLine("Введите фамилию нового сотрудника");
                                 var surname = Console.ReadLine();
                                 Console.WriteLine("Введите имя нового сотрудника");
@@ -634,87 +704,85 @@ namespace pat6
                                 Console.WriteLine("Введите дату рождения нового сотрудника");
                                 var bdate = Console.ReadLine();
                                 Console.WriteLine("Введите зарплату нового сотрудника");
-                                var payment = Console.ReadLine();
-
-                                
-                                Gender gender = Gender.Male;
-                                bool isValidGender = false;
-
-                                while (!isValidGender)
-                                    try
-                                    {
-                                        gender = (Gender)Enum.Parse(typeof(Gender), Console.ReadLine());
-                                        isValidGender = true;
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine(e.Message);
-                                        Console.ForegroundColor = ConsoleColor.White;
-                                    }
-
-                                var hobbies = new List<string>();
-                                Console.WriteLine("Введите хобби ребенка (exit - чтобы закончить ввод):");
-                                var input = Console.ReadLine();
-                                while (input != "exit")
+                                var payment = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("Введите уникальный идентификатор нового сотрудника");
+                                var key = Console.ReadLine();
+                                AbstractEmployeeBuilder builder = null;
+                                switch (depart)
                                 {
-                                    hobbies.Add(input);
-                                    input = Console.ReadLine();
+                                    case "learn":
+                                        builder = LearnBuilder;
+                                        break;
+                                    case "international":
+                                        builder = InternationalBuilder;
+                                        break;
+                                    case "hr":
+                                        builder = HRBuilder;
+                                        break;
+                                    case "finance":
+                                        builder = FinanceBuilder;
+                                        break;
+                                    default:
+                                        break;
                                 }
-
-                                ConcreteStudentBuilder.AddChild(sname, name, mname, bdate, gender, hobbies);
+                                Employees.Add(key, CreateEmployee(builder, rang, surname, name, middleName, bdate, payment));
+                                break;
+                            }
+                        case "sha":
+                            {
+                                Employees.Keys.ToList().ForEach(e => Console.WriteLine($"{e} - {Employees[e]}"));
                                 break;
                             }
                         case "sh":
                             {
-                                if (args.Length == 1)
-                                    Employees.ForEach(e => Console.WriteLine(e));
-                                if (args.Length == 2)
-                                    switch (args[1].ToLower())
-                                    {
-                                        case "learn":
-                                            Employees.Where(e => e is LearnDepartment)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "international":
-                                            Employees.Where(e => e is InternationalDepartment)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "hr":
-                                            Employees.Where(e => e is HRDepartment)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "finance":
-                                            Employees.Where(e => e is FinanceDepartment)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "intern":
-                                            Employees.Where(e => e is AbstractIntern)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "clerk":
-                                            Employees.Where(e => e is AbstractClerk)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "deputyhead":
-                                            Employees.Where(e => e is AbstractDeputyHead)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        case "head":
-                                            Employees.Where(e => e is AbstractHead)
-                                                .ToList()
-                                                .ForEach(e => Console.WriteLine(e));
-                                            break;
-                                        default:
-                                            throw new ArgumentException("Не существует подходящего отдела или должности");
-                                    }
+                                Console.WriteLine("Введите название отдела или должности сотрудника:");
+                                Console.WriteLine("learn, international, hr, finance");
+                                Console.WriteLine("intern, clerk, deputyhead, head");
+                                switch (Console.ReadLine().ToLower())
+                                {
+                                    case "learn":
+                                        Employees.Values.Where(e => e is LearnDepartment)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "international":
+                                        Employees.Values.Where(e => e is InternationalDepartment)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "hr":
+                                        Employees.Values.Where(e => e is HRDepartment)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "finance":
+                                        Employees.Values.Where(e => e is FinanceDepartment)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "intern":
+                                        Employees.Values.Where(e => e is AbstractIntern)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "clerk":
+                                        Employees.Values.Where(e => e is AbstractClerk)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "deputyhead":
+                                        Employees.Values.Where(e => e is AbstractDeputyHead)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    case "head":
+                                        Employees.Values.Where(e => e is AbstractHead)
+                                            .ToList()
+                                            .ForEach(e => Console.WriteLine(e));
+                                        break;
+                                    default:
+                                        throw new ArgumentException("Не существует подходящего отдела или должности");
+                                }
                                 break;
                             }
                         case "ch":
@@ -728,14 +796,12 @@ namespace pat6
                         default:
                             {
                                 Console.WriteLine(
-                                  $"Названия отделов: learn, international, hr, finance\n\r" +
-                                  $"Названия должностей: intern, clerk, deputyhead, head\n\r\n\r" +
-                                  $"Скопировать сотрудникка\n\r" +
-                                  $"Вывод всех текущих сотрудников определенного отдела   sh \"Название отдела\"\n\r" +
-                                  $"Вывод всех текущих сотрудников определенной должности sh \"Название должности\"\n\r" +
-                                  $"Создать сотрудника                                    crt \"Название отдела\" \"Название должности\" <Фамилия> <Имя> <Отчество> <Дата рождения> <Зарплата>\n\r" +
-                                  $"Вывод всех текущих сотрудников                        sh\n\r" +
-                                  $"Выход                                                 exit\n\r");
+                                  $"Скопировать сотрудникка                                     copy\n\r" +
+                                  $"Изменить сотрудника                                         chng\n\r" +
+                                  $"Вывод всех сотрудников определенной должности или отдела    sh\n\r" +
+                                  $"Вывод всех текущих сотрудников                              sha\n\r" +
+                                  $"Создать сотрудника                                          crt\n\r" +
+                                  $"Выход                                                       exit\n\r");
                             }
                             break;
                     }
