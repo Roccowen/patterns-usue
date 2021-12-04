@@ -785,14 +785,6 @@ namespace pat6
                                 }
                                 break;
                             }
-                        case "ch":
-                            {
-                                break;
-                            }
-                        case "cln":
-                            {
-                                break;
-                            }
                         default:
                             {
                                 Console.WriteLine(
