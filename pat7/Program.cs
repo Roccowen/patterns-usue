@@ -105,7 +105,7 @@ namespace pat7
                             var name = Console.ReadLine();
                             Console.WriteLine("Введите отчество студента:");
                             var middlename = Console.ReadLine();
-                            Console.WriteLine("Введите датурождения студента (дд.мм.гггг):");
+                            Console.WriteLine("Введите дату рождения студента (дд.мм.гггг):");
                             CurrentStudentGroup.AddStudent(new Student() 
                             { 
                                 Surname = surname, 
