@@ -1,7 +1,16 @@
-﻿public interface IHasSallary
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public virtual class IHasSallary
 {
+    public int GetLevel();
     public void IncreaseSallaryBy(int increaseValue);
     public int GetSallary();
+    public string GetName();
+    public bool AddNode(IHasSallary node, string[] path);
 }
 
 public class Employee : IHasSallary
@@ -10,6 +19,7 @@ public class Employee : IHasSallary
     public int Sallary { get; set; }
     public void IncreaseSallaryBy(int increaseValue) => Sallary += increaseValue;
     public int GetSallary() => Sallary;
+    public string GetName() => Name;
     public override string ToString() => $"{Name} ${Sallary}";
 }
 
@@ -17,8 +27,21 @@ public class Department : IHasSallary
 {
     public string Name { get; set; }
     public List<IHasSallary> Employees { get; set; }
+
+    public bool AddNode(IHasSallary node, string[] path)
+    {
+        if (Name == path[0])
+        {
+            Employees.Add(node);
+            return true;
+        }
+            
+        else
+            Employees.Find(e => e.GetName() == path[0]).AddNode(node, path.TakeLast(path.Length - 2).ToArray<string>());
+    }
     public void IncreaseSallaryBy(int increaseValue) => Employees.ForEach(e => e.IncreaseSallaryBy(increaseValue));
     public int GetSallary() => Employees.Sum(e => e.GetSallary());
+    public string GetName() => Name;
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Employees.Select(e => e.ToString()))}";
 }
 
@@ -26,8 +49,22 @@ public class Univerity : IHasSallary
 {
     public string Name { get; set; }
     public List<IHasSallary> Departments { get; set; }
+
+    public Dictionary<string, Department> Departments { get; set; }
+    public Dictionary<string, Employee> Employees { get; set; }
+    public void AddEmployee(Employee emp)
+    {
+
+    }
+
+    public void AddDepartment(Department dep)
+    {
+
+    }
+
     public void IncreaseSallaryBy(int increaseValue) => Departments.ForEach(e => e.IncreaseSallaryBy(increaseValue));
     public int GetSallary() => Departments.Sum(e => e.GetSallary());
+    public string GetName() => Name;
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Departments.Select(e => e.ToString()))}";
 }
 

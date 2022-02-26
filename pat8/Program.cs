@@ -1,4 +1,10 @@
-﻿public class Document
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Document
 {
     internal string name;
     public string GetName() => name;
@@ -123,13 +129,6 @@ public static class Programm
                         Console.WriteLine(new EnglishDocumentAdapter((EnglishDocument)n.Value));
                     else Console.WriteLine(n.Value);
                 });
-                    //Console.WriteLine($"Имеющиеся документы после адаптации: " +
-                    //            $"\n\r{String.Join("\n\r", Documents.Select(n => { 
-                    //                if (n.Value is EnglishDocument)
-                    //                    return new EnglishDocumentAdapter((EnglishDocument)n.Value).ToString();
-                    //                return n.Value.ToString();
-                    //            }))}\n\r");
-
                     Console.ResetColor();
             }
             catch (Exception e)
