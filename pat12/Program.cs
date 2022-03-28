@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,13 +29,40 @@ public class Department : IHasSallary
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Employees.Select(e => e.ToString()))}";
 }
 
-public class Univerity : IHasSallary
+public class Univerity : IHasSallary, IEnumerable
 {
     public string Name { get; set; }
     public List<IHasSallary> Departments { get; set; }
     public void IncreaseSallaryBy(int increaseValue) => Departments.ForEach(e => e.IncreaseSallaryBy(increaseValue));
     public int GetSallary() => Departments.Sum(e => e.GetSallary());
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Departments.Select(e => e.ToString()))}";
+    public IEnumerator GetEnumerator() => new UniversityIterator(this);
+}
+
+
+class UniversityIterator : IEnumerator
+{
+    public IHasSallary Current;
+    private Univerity Univerity;
+    private Dictionary<IHasSallary, int> ItemsLevels = new Dictionary<IHasSallary, int>();
+    public UniversityIterator(Univerity university)
+    {
+        Univerity = university;
+    }
+    private void CalcItemsLevels()
+    {
+        Univerity.Departments.
+    }
+
+    public bool MoveNext()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Reset()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public static class Program
@@ -149,11 +177,6 @@ public static class Program
                 },
             }
     };
-
-    interface Iterator
-    {
-        GetNext()
-    }
 
     static void Main(string[] args) => ConsoleReader();
     public static void ConsoleReader()
