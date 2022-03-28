@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pat08", "pat8\pat08.csproj"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pat09", "pat9\pat09.csproj", "{0B3190C2-F81D-4515-9302-B4204CF49272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pat10", "pat10\pat10.csproj", "{76E8F044-4A3D-480B-BFE9-345D3D2A798C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pat10", "pat10\pat10.csproj", "{76E8F044-4A3D-480B-BFE9-345D3D2A798C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pat11", "pat11\pat11.csproj", "{C887A39F-0AEB-4232-9281-72AAB17B5C3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pat11", "pat11\pat11.csproj", "{C887A39F-0AEB-4232-9281-72AAB17B5C3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pat12", "pat12\pat12.csproj", "{15C16387-564C-4251-936F-4ABF672BA01D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{C887A39F-0AEB-4232-9281-72AAB17B5C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C887A39F-0AEB-4232-9281-72AAB17B5C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C887A39F-0AEB-4232-9281-72AAB17B5C3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C16387-564C-4251-936F-4ABF672BA01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C16387-564C-4251-936F-4ABF672BA01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C16387-564C-4251-936F-4ABF672BA01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C16387-564C-4251-936F-4ABF672BA01D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
