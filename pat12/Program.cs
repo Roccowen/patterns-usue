@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 public interface IHasSallary
 {
     public void IncreaseSallaryBy(int increaseValue);
@@ -39,20 +40,51 @@ public class Univerity : IHasSallary, IEnumerable
     public IEnumerator GetEnumerator() => new UniversityIterator(this);
 }
 
+public static class Extention
+{
+    public static IEnumerable<T> Traverse<T>(this IEnumerable<T> items, Func<T, IEnumerable<T>> childSelector)
+    {
+        var stack = new Stack<T>(items);
+        while (stack.Any())
+        {
+            var next = stack.Pop();
+            yield return next;
+            foreach (var child in childSelector(next))
+                stack.Push(child);
+        }
+    }
+}
 
 class UniversityIterator : IEnumerator
 {
     public IHasSallary Current;
     private Univerity Univerity;
     private Dictionary<IHasSallary, int> ItemsLevels = new Dictionary<IHasSallary, int>();
+
+    object IEnumerator.Current => throw new NotImplementedException();
+
     public UniversityIterator(Univerity university)
     {
         Univerity = university;
     }
-    private void CalcItemsLevels()
+
+    public List<IHasSallary> Magic(Univerity _univerity)
     {
-        Univerity.Departments.
+        var list = new List<IHasSallary>();
+        
+        void GetEmployee(IHasSallary obj)
+        {
+            if (obj is Univerity)
+                (obj as Univerity).Departments.ForEach(e => GetEmployee(e));
+            else if (obj is Department)
+                (obj as Department).Employees.ForEach(e => GetEmployee(e));
+            else 
+                list.Add(obj);
+        }
+        GetEmployee(_univerity);
+        return list;
     }
+
 
     public bool MoveNext()
     {
@@ -178,7 +210,12 @@ public static class Program
             }
     };
 
-    static void Main(string[] args) => ConsoleReader();
+    static void Main(string[] args)
+    {
+        var iterator = new UniversityIterator(university);
+        var a = iterator.Magic(university);
+        Console.WriteLine();
+    } //=> ConsoleReader();
     public static void ConsoleReader()
     {
         Console.WriteLine("Для появления справки нажмите - Enter...");
