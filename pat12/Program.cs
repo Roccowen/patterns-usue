@@ -222,7 +222,7 @@ public static class Program
                     case "2":
                         Console.WriteLine("Введите число на которое необходимо изменить зарплату сотрудникам:");
                         var sallaryIncerease = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine($"\n\r{string.Join("\n\r", university.Select(employee => $"  {employee.Name} {employee.Sallary} => {employee.Sallary += sallaryIncerease}"))}\n\r");
+                        Console.WriteLine($"\n\r{string.Join("\n\r", university.Select(employee => $"  {employee.Name} ${employee.Sallary} -> ${employee.Sallary += sallaryIncerease}"))}\n\r");
                         break;
                     case "exit":
                         return;
@@ -237,7 +237,7 @@ public static class Program
                         }
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(university.ToString(0));
+                Console.WriteLine(university.ToString(1));
                 Console.ResetColor();
             }
             catch (Exception e)
