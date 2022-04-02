@@ -30,71 +30,62 @@ public class Department : IHasSallary
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Employees.Select(e => e.ToString()))}";
 }
 
-public class Univerity : IHasSallary, IEnumerable
+public class Univerity : IHasSallary, IEnumerable<Employee>
 {
     public string Name { get; set; }
     public List<IHasSallary> Departments { get; set; }
     public void IncreaseSallaryBy(int increaseValue) => Departments.ForEach(e => e.IncreaseSallaryBy(increaseValue));
     public int GetSallary() => Departments.Sum(e => e.GetSallary());
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Departments.Select(e => e.ToString()))}";
-    public IEnumerator GetEnumerator() => new UniversityIterator(this);
+
+    public IEnumerator<Employee> GetEnumerator() => new UniversityIterator(this);
+
+    IEnumerator IEnumerable.GetEnumerator() => new UniversityIterator(this);
 }
 
-public static class Extention
+
+class UniversityIterator : IEnumerator<Employee>
 {
-    public static IEnumerable<T> Traverse<T>(this IEnumerable<T> items, Func<T, IEnumerable<T>> childSelector)
-    {
-        var stack = new Stack<T>(items);
-        while (stack.Any())
-        {
-            var next = stack.Pop();
-            yield return next;
-            foreach (var child in childSelector(next))
-                stack.Push(child);
-        }
-    }
-}
-
-class UniversityIterator : IEnumerator
-{
-    public IHasSallary Current;
-    private Univerity Univerity;
-    private Dictionary<IHasSallary, int> ItemsLevels = new Dictionary<IHasSallary, int>();
-
-    object IEnumerator.Current => throw new NotImplementedException();
-
+    private IEnumerator<Employee> ItemEnumerator;
     public UniversityIterator(Univerity university)
     {
-        Univerity = university;
+        ItemEnumerator = GetEmployeesLevels(university)
+            .OrderByDescending(s => s.Value)
+            .Where(el => el.Key is Employee)
+            .Select(e => (Employee)e.Key)
+            .GetEnumerator();
     }
 
-    public List<IHasSallary> Magic(Univerity _univerity)
+    public Employee Current => ItemEnumerator.Current;
+    object IEnumerator.Current => ItemEnumerator.Current;
+
+    public bool MoveNext() => ItemEnumerator.MoveNext();
+
+    public void Reset() => ItemEnumerator.Reset();
+
+    private Dictionary<IHasSallary, int> GetEmployeesLevels(Univerity university)
     {
-        var list = new List<IHasSallary>();
-        
-        void GetEmployee(IHasSallary obj)
+        var objsLevels = new Dictionary<IHasSallary, int>();
+        NextLevel(university);
+        return objsLevels;
+
+        void NextLevel(IHasSallary obj, int level = 0)
         {
-            if (obj is Univerity)
-                (obj as Univerity).Departments.ForEach(e => GetEmployee(e));
-            else if (obj is Department)
-                (obj as Department).Employees.ForEach(e => GetEmployee(e));
-            else 
-                list.Add(obj);
+            if (obj is Employee)
+                objsLevels.Add(obj, level);
+            else
+            {
+                objsLevels.Add(obj, level);
+
+                if (obj is Univerity)
+                    (obj as Univerity).Departments.ForEach(e => NextLevel(e, level + 1));
+
+                if (obj is Department)
+                    (obj as Department).Employees.ForEach(e => NextLevel(e, level + 1));
+            }
         }
-        GetEmployee(_univerity);
-        return list;
     }
-
-
-    public bool MoveNext()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Reset()
-    {
-        throw new NotImplementedException();
-    }
+    public void Dispose() { }
 }
 
 public static class Program
@@ -202,7 +193,7 @@ public static class Program
                         },
                         new Employee()
                         {
-                            Name = "Сотрудник12",
+                            Name = "Сотрудник 12",
                             Sallary = 3700,
                         },
                     }
@@ -210,12 +201,7 @@ public static class Program
             }
     };
 
-    static void Main(string[] args)
-    {
-        var iterator = new UniversityIterator(university);
-        var a = iterator.Magic(university);
-        Console.WriteLine();
-    } //=> ConsoleReader();
+    static void Main(string[] args) => ConsoleReader();
     public static void ConsoleReader()
     {
         Console.WriteLine("Для появления справки нажмите - Enter...");
@@ -229,13 +215,20 @@ public static class Program
                         Console.WriteLine("Введите число на которое необходимо изменить зарплату сотрудникам:");
                         university.IncreaseSallaryBy(Convert.ToInt32(Console.ReadLine()));
                         break;
+                    case "2":
+                        Console.WriteLine("Введите число на которое необходимо изменить зарплату сотрудникам:");
+                        var sallaryIncerease = Convert.ToInt32(Console.ReadLine());
+                        foreach (var employee in university)
+                            Console.WriteLine($"\t{employee.Name} {employee.Sallary} => {employee.Sallary += sallaryIncerease}");
+                        break;
                     case "exit":
                         return;
                     default:
                         {
                             Console.WriteLine(
                                    $"Управление документами \n\r" +
-                                   $"\tИзменить всем зарплату         1\n\r" +
+                                   $"\tИзменить всем зарплату рекурсивно                1\n\r" +
+                                   $"\tИзменить всем зарплату начиная с нижнего уровня  2\n\r" +
                                    $"Выход                       exit\n\r");
                             break;
                         }
