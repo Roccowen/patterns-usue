@@ -10,6 +10,7 @@ public interface IHasSallary
 {
     public void IncreaseSallaryBy(int increaseValue);
     public int GetSallary();
+    public string ToString(int spaceCount);
 }
 
 public class Employee : IHasSallary
@@ -19,6 +20,7 @@ public class Employee : IHasSallary
     public void IncreaseSallaryBy(int increaseValue) => Sallary += increaseValue;
     public int GetSallary() => Sallary;
     public override string ToString() => $"{Name} ${Sallary}";
+    public string ToString(int spaceCount) => $"{new string(' ', spaceCount)}{Name} ${Sallary}";
 }
 
 public class Department : IHasSallary
@@ -28,6 +30,7 @@ public class Department : IHasSallary
     public void IncreaseSallaryBy(int increaseValue) => Employees.ForEach(e => e.IncreaseSallaryBy(increaseValue));
     public int GetSallary() => Employees.Sum(e => e.GetSallary());
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Employees.Select(e => e.ToString()))}";
+    public string ToString(int spaceCount) => $"{new string(' ', spaceCount)}{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Employees.Select(e => e.ToString(spaceCount + 1)))}";
 }
 
 public class Univerity : IHasSallary, IEnumerable<Employee>
@@ -37,6 +40,7 @@ public class Univerity : IHasSallary, IEnumerable<Employee>
     public void IncreaseSallaryBy(int increaseValue) => Departments.ForEach(e => e.IncreaseSallaryBy(increaseValue));
     public int GetSallary() => Departments.Sum(e => e.GetSallary());
     public override string ToString() => $"{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Departments.Select(e => e.ToString()))}";
+    public string ToString(int spaceCount) => $"{new string(' ', spaceCount)}{Name} ${GetSallary()}:\n\r{String.Join("\n\r", Departments.Select(e => e.ToString(spaceCount + 1)))}";
 
     public IEnumerator<Employee> GetEnumerator() => new UniversityIterator(this);
 
@@ -218,8 +222,7 @@ public static class Program
                     case "2":
                         Console.WriteLine("Введите число на которое необходимо изменить зарплату сотрудникам:");
                         var sallaryIncerease = Convert.ToInt32(Console.ReadLine());
-                        foreach (var employee in university)
-                            Console.WriteLine($"\t{employee.Name} {employee.Sallary} => {employee.Sallary += sallaryIncerease}");
+                        Console.WriteLine($"\n\r{string.Join("\n\r", university.Select(employee => $"  {employee.Name} {employee.Sallary} => {employee.Sallary += sallaryIncerease}"))}\n\r");
                         break;
                     case "exit":
                         return;
@@ -234,7 +237,7 @@ public static class Program
                         }
                 }
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(university);
+                Console.WriteLine(university.ToString(0));
                 Console.ResetColor();
             }
             catch (Exception e)
